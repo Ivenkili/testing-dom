@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script>
+         // Create a container
+    const card = document.createElement("div");
+    card.className = "card";
+
+    // Create title
+    const title = document.createElement("h1");
+    title.textContent = "About Me";
+    card.appendChild(title);
+
+    // Your details
+    const info = [
+      "Name: Emmanuela Emmanuel",
+      "status: I am a student",
+      "School: Temple Gate Polytechnic",
+      "Course: Statistics",
+      "state of origin: Imo state",
+      "Location: Nigeria",
+      "Passion: I love coding, building websites, and cooking.",
+      "Skills: HTML, CSS, JavaScript, Tailwind, Git",
+      "Hobbies: Listening to music, dancing, reading, and solving coding challenges.",
+      "Goal: Become a full-stack developer and contribute to open-source projects.",
+      
+    ];
+
+    // Add details to the card
+    info.forEach(detail => {
+      const p = document.createElement("p");
+      p.textContent = detail;
+      card.appendChild(p);
+    });
+
+    // Add the card to the body
+    document.body.appendChild(card);
+  </script>
+         
+
+    
+
+
+
+    </script> 
+</body>
+</html>
