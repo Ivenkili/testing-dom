@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+      font-family: sans-serif;
+      background-color: yellowgreen;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+  
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+    }
+  
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+  
+    input {
+      padding: 10px;
+      width: 65%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+  
+    button {
+      padding: 10px;
+      background-color: yellowgreen;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  
+    button:hover {
+      background-color: green;
+    }
+  
+    ul {
+      list-style-type: none;
+      margin-top: 20px;
+    }
+  
+    li {
+      background-color: #f4f4f4;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      position: relative;
+      word-wrap: break-word;
+    }
+  
+    .done {
+      text-decoration: line-through;
+      color: gray;
+      background-color: #ddd;
+    }
+  
+    small {
+      display: block;
+      font-size: 10px;
+      color: #888;
+      margin-top: 5px;
+    }
+  
+    /* Make input and button side-by-side */
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+  
+    /* RESPONSIVENESS */
+    @media (max-width: 500px) {
+      .container {
+        padding: 15px;
+      }
+  
+      input {
+        width: 60%;
+        font-size: 14px;
+      }
+  
+      button {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+  
+      h1 {
+        font-size: 20px;
+      }
+  
+      li {
+        font-size: 14px;
+      }
+    }
+  </style>
+  
+</head>
+
+<body>
+  <div class="container">
+    <h1>My To-Do List</h1>
+    <div style="display: flex; gap: 10px;">
+      <input type="text" id="todo-input" placeholder="Enter a task" />
+      <button id="add-btn">Add</button>
+    </div>
+    <ul id="todo-list"></ul>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById("add-btn");
+    const todoInput = document.getElementById("todo-input");
+    const todoList = document.getElementById("todo-list");
+
+    addBtn.addEventListener("click", function () {
+      const taskText = todoInput.value.trim();
+
+      if (taskText !== "") {
+        const li = document.createElement("li");
+
+        const now = new Date();
+        const timestamp = now.toLocaleString();
+
+        li.innerHTML = `<span class="task-text">${taskText}</span>
+                        <small>Added: ${timestamp}</small>`;
+
+        // Toggle done class on click
+        li.addEventListener("click", function () {
+          li.classList.toggle("done");
+        });
+
+        // Right-click to delete
+        li.addEventListener("contextmenu", function (e) {
+          e.preventDefault();
+          li.remove();
+        });
+
+        // Double-click to edit task
+        li.addEventListener("dblclick", function () {
+          const span = li.querySelector(".task-text");
+          const currentText = span.textContent;
+
+          const newText = prompt("Edit your task:", currentText);
+
+          if (newText !== null && newText.trim() !== "") {
+            span.textContent = newText.trim();
+          }
+        });
+
+        todoList.appendChild(li);
+        todoInput.value = "";
+      }
+    });
+  </script>
+</body>
+</html>

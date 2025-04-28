@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h2 class="ella">I'm just a girl</h2>
+    <form>
+    <input name="gender" type="radio" value="male">
+    <input name="gender" type="radio" value="female">
+    </form>
+
     <script>
+        
          // Create a container
     const card = document.createElement("div");
     card.className = "card";
@@ -34,9 +41,9 @@
 
     // Add details to the card
     info.forEach(detail => {
-      const p = document.createElement("p");
-      p.textContent = detail;
-      card.appendChild(p);
+      const li = document.createElement("li");
+      li.textContent = detail;
+      card.appendChild(li);
     });
 
     // Add the card to the body

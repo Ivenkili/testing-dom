@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-do ella</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: yellowgreen;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .main-cont {
+      background-color: white;
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input, select, button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #todo-list {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .done {
+      text-decoration: line-through;
+      color: gray;
+    }
+    #search-input {
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input[type="datetime-local"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .task-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="main-cont">
+      <h1>My To-Do List</h1>
+
+      <!-- Search Input -->
+      <input type="text" id="search-input" placeholder="Search tasks..." />
+
+      <!-- Add Task Area -->
+      <div class="input-area">
+        <input type="text" id="todo-input" placeholder="Enter a task" />
+        <select id="priority-select">
+          <option value="Low">Low 🔵</option>
+          <option value="Medium">Medium 🟡</option>
+          <option value="High">High 🔴</option>
+        </select>
+        <input type="datetime-local" id="deadline-input" />
+        <button id="add-btn">Add Task</button>
+      </div>
+
+      <!-- Task List -->
+      <ul id="todo-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById("add-btn");
+    const todoInput = document.getElementById("todo-input");
+    const todoList = document.getElementById("todo-list");
+    const prioritySelect = document.getElementById("priority-select");
+    const searchInput = document.getElementById("search-input");
+    const deadlineInput = document.getElementById("deadline-input");
+
+    // Add task
+    addBtn.addEventListener("click", function () {
+      const taskText = todoInput.value.trim();
+      const priority = prioritySelect.value;
+      const deadline = deadlineInput.value;
+
+      if (taskText !== "") {
+        const li = document.createElement("li");
+
+        // Create Checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.style.marginRight = "10px";
+
+        const taskSpan = document.createElement("span");
+        taskSpan.textContent = taskText;
+
+        const prioritySpan = document.createElement("span");
+        prioritySpan.style.fontSize = "12px";
+        prioritySpan.style.color = priority === "High" ? "red" : priority === "Medium" ? "orange" : "blue";
+        prioritySpan.textContent = `[${priority}]`;
+
+        const countdown = document.createElement("span");
+        countdown.style.fontSize = "12px";
+        countdown.style.marginLeft = "10px";
+        countdown.style.color = "gray";
+
+        if (deadline) {
+          updateCountdown(countdown, deadline);
+          setInterval(() => updateCountdown(countdown, deadline), 1000); // Update every second
+        }
+
+        // Handle checking task
+        checkbox.addEventListener("change", function () {
+          if (checkbox.checked) {
+            taskSpan.classList.add("done");
+          } else {
+            taskSpan.classList.remove("done");
+          }
+        });
+
+        const taskInfo = document.createElement("div");
+        taskInfo.className = "task-info";
+        taskInfo.appendChild(checkbox);
+        taskInfo.appendChild(taskSpan);
+
+        li.appendChild(taskInfo);
+        li.appendChild(prioritySpan);
+        if (deadline) {
+          li.appendChild(countdown);
+        }
+
+        // Right-click to delete
+        li.addEventListener("contextmenu", function (e) {
+          e.preventDefault();
+          li.remove();
+        });
+
+        todoList.appendChild(li);
+
+        // Reset inputs
+        todoInput.value = "";
+        prioritySelect.value = "Low";
+        deadlineInput.value = "";
+      }
+    });
+
+    // Search tasks
+    searchInput.addEventListener("input", function () {
+      const searchText = searchInput.value.toLowerCase();
+      const tasks = document.querySelectorAll("#todo-list li");
+
+      tasks.forEach(function (task) {
+        const taskText = task.textContent.toLowerCase();
+        if (taskText.includes(searchText)) {
+          task.style.display = "flex";
+        } else {
+          task.style.display = "none";
+        }
+      });
+    });
+
+    // Countdown function
+    function updateCountdown(countdownElement, deadline) {
+      const now = new Date();
+      const deadlineDate = new Date(deadline);
+      const diff = deadlineDate - now;
+
+      if (diff <= 0) {
+        countdownElement.textContent = "⏰ Time's up!";
+        countdownElement.style.color = "red";
+        return;
+      }
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      countdownElement.textContent = `⏳ ${hours}h ${minutes}m ${seconds}s`;
+    }
+  </script>
+</body>
+</html>

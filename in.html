@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: purple;
+        padding: 20px;
+      }
+      .card {
+        background: gold;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 300pc;
+        max-height: 100vh;
+        margin: auto;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        color: black;
+      }
+      #ella {
+        width: 20%;
+      }
+      h2 {
+        text-align: center;
+        color: black;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="first">
+      <ol>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ol>
+    </div>
+    <!-- <h2> playing Around with dom as Mr. kc insructed</h2> -->
+
+    <button id="btn">click me</button>
+    <script>
+      let name = document.querySelector(".first");
+      name.setAttribute("class", "second");
+      name.setAttribute("id", "header");
+      console.log(name);
+
+      // const button = document.getElementById("btn");
+
+      const container = document.createElement("div");
+      container.className = "card";
+
+      const title = document.createElement("h1");
+      title.textContent = "I'm just a girl";
+      container.appendChild(title);
+
+      const img = document.createElement("img");
+      img.id = "ella";
+      img.type = "images";
+      img.src = "ella.JPEG";
+      container.appendChild(img);
+
+      const about = [
+        "who isn't afraid to be herself",
+        "who's not afraid to be different",
+        "who is not afraid to be unique",
+        "who is grateful for the gift of life",
+      ];
+
+      about.forEach((details) => {
+        const p = document.createElement("p");
+        p.innerText = details;
+        container.appendChild(p);
+      });
+
+      document.body.appendChild(container);
+      // document.body.appendChild(img);
+      const button = document.getElementById("btn");
+      button.innerText = "Click me";
+      button.addEventListener("click", function () {
+        alert("hey there");
+      });
+      button.addEventListener("click", function () {
+        console.log("hello Ella!");
+      });
+
+      // Also listen for mouse hover
+      button.addEventListener("mouseover", function () {
+        console.log("Mouse is over the button");
+      });
+
+      // Also listen for mouse leaving
+      button.addEventListener("mouseout", function () {
+        console.log("Mouse left the button");
+      });
+      button.style.backgroundColor = "black";
+      button.style.color = "white";
+      button.style.padding = "10px 20px";
+      container.appendChild(button);
+
+      const note = document.createElement("p");
+      note.innerHTML =
+        '<a href="https://x.com/3lla_i_am" target="_blank">Follow me on X</a>';
+        p.addEventListener("focus", function () {
+        console.log("Input field is focused");
+      });
+      note.style.textAlign = "right";
+      container.appendChild(note);
+    </script>
+  </body>
+</html>
